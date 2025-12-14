@@ -86,12 +86,12 @@ export function Card({
       ]}
     >
       {title ? (
-        <ThemedText type="h4" style={styles.cardTitle}>
+        <ThemedText type="titleMedium" style={styles.cardTitle}>
           {title}
         </ThemedText>
       ) : null}
       {description ? (
-        <ThemedText type="small" style={styles.cardDescription}>
+        <ThemedText type="bodyMedium" style={styles.cardDescription}>
           {description}
         </ThemedText>
       ) : null}
@@ -103,7 +103,7 @@ export function Card({
 const styles = StyleSheet.create({
   card: {
     padding: Spacing.xl,
-    borderRadius: BorderRadius["2xl"],
+    borderRadius: BorderRadius.xl,
   },
   cardTitle: {
     marginBottom: Spacing.sm,

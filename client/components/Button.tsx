@@ -9,13 +9,14 @@ import Animated, {
 
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
-import { BorderRadius, Spacing } from "@/constants/theme";
+import { BorderRadius, Spacing, Colors } from "@/constants/theme";
 
 interface ButtonProps {
   onPress?: () => void;
   children: ReactNode;
   style?: StyleProp<ViewStyle>;
   disabled?: boolean;
+  variant?: "primary" | "secondary" | "error";
 }
 
 const springConfig: WithSpringConfig = {
@@ -33,8 +34,9 @@ export function Button({
   children,
   style,
   disabled = false,
+  variant = "primary",
 }: ButtonProps) {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const scale = useSharedValue(1);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -53,6 +55,18 @@ export function Button({
     }
   };
 
+  const getBackgroundColor = () => {
+    const colors = isDark ? Colors.dark : Colors.light;
+    switch (variant) {
+      case "secondary":
+        return colors.secondary;
+      case "error":
+        return colors.error;
+      default:
+        return colors.primary;
+    }
+  };
+
   return (
     <AnimatedPressable
       onPress={disabled ? undefined : onPress}
@@ -62,7 +76,7 @@ export function Button({
       style={[
         styles.button,
         {
-          backgroundColor: theme.link,
+          backgroundColor: getBackgroundColor(),
           opacity: disabled ? 0.5 : 1,
         },
         style,
@@ -70,7 +84,7 @@ export function Button({
       ]}
     >
       <ThemedText
-        type="body"
+        type="labelLarge"
         style={[styles.buttonText, { color: theme.buttonText }]}
       >
         {children}
@@ -82,11 +96,12 @@ export function Button({
 const styles = StyleSheet.create({
   button: {
     height: Spacing.buttonHeight,
-    borderRadius: BorderRadius.full,
+    borderRadius: BorderRadius.sm,
     alignItems: "center",
     justifyContent: "center",
+    paddingHorizontal: Spacing.lg,
   },
   buttonText: {
-    fontWeight: "600",
+    textAlign: "center",
   },
 });

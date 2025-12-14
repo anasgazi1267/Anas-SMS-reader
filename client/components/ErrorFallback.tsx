@@ -8,11 +8,11 @@ import {
   Text,
   Modal,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
-import { Spacing, BorderRadius, Fonts } from "@/constants/theme";
+import { Spacing, BorderRadius, Fonts, Colors } from "@/constants/theme";
 
 export type ErrorFallbackProps = {
   error: Error;
@@ -53,17 +53,23 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
             },
           ]}
         >
-          <Feather name="alert-circle" size={20} color={theme.text} />
+          <MaterialIcons name="error-outline" size={20} color={theme.text} />
         </Pressable>
       ) : null}
 
       <View style={styles.content}>
-        <ThemedText type="h1" style={styles.title}>
-          Something went wrong
+        <MaterialIcons
+          name="error-outline"
+          size={64}
+          color={Colors.light.error}
+        />
+
+        <ThemedText type="headlineMedium" style={styles.title}>
+          Anas SMS Reader stopped
         </ThemedText>
 
-        <ThemedText type="body" style={styles.message}>
-          Please reload the app to continue.
+        <ThemedText type="bodyLarge" style={styles.message}>
+          Something unexpected happened. Please restart the app to continue monitoring payment SMS.
         </ThemedText>
 
         <Pressable
@@ -71,17 +77,17 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
           style={({ pressed }) => [
             styles.button,
             {
-              backgroundColor: theme.link,
+              backgroundColor: Colors.light.primary,
               opacity: pressed ? 0.9 : 1,
               transform: [{ scale: pressed ? 0.98 : 1 }],
             },
           ]}
         >
           <ThemedText
-            type="body"
+            type="labelLarge"
             style={[styles.buttonText, { color: theme.buttonText }]}
           >
-            Try Again
+            RESTART APP
           </ThemedText>
         </Pressable>
       </View>
@@ -96,7 +102,7 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
           <View style={styles.modalOverlay}>
             <ThemedView style={styles.modalContainer}>
               <View style={styles.modalHeader}>
-                <ThemedText type="h2" style={styles.modalTitle}>
+                <ThemedText type="titleLarge" style={styles.modalTitle}>
                   Error Details
                 </ThemedText>
                 <Pressable
@@ -106,7 +112,7 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
                     { opacity: pressed ? 0.6 : 1 },
                   ]}
                 >
-                  <Feather name="x" size={24} color={theme.text} />
+                  <MaterialIcons name="close" size={24} color={theme.text} />
                 </Pressable>
               </View>
 
@@ -150,54 +156,44 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    padding: Spacing["2xl"],
+    padding: Spacing.lg,
   },
   content: {
     alignItems: "center",
     justifyContent: "center",
-    gap: Spacing.lg,
+    gap: Spacing.md,
     width: "100%",
-    maxWidth: 600,
+    maxWidth: 400,
   },
   title: {
     textAlign: "center",
-    lineHeight: 40,
+    marginTop: Spacing.md,
   },
   message: {
     textAlign: "center",
     opacity: 0.7,
-    lineHeight: 24,
   },
   topButton: {
     position: "absolute",
-    top: Spacing["2xl"] + Spacing.lg,
+    top: Spacing.xl + Spacing.lg,
     right: Spacing.lg,
     width: 44,
     height: 44,
-    borderRadius: BorderRadius.md,
+    borderRadius: BorderRadius.sm,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     zIndex: 10,
   },
   button: {
-    paddingVertical: Spacing.lg,
-    borderRadius: BorderRadius.md,
-    paddingHorizontal: Spacing["2xl"],
+    paddingVertical: Spacing.md,
+    borderRadius: BorderRadius.sm,
+    paddingHorizontal: Spacing.xl,
     minWidth: 200,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    marginTop: Spacing.md,
   },
   buttonText: {
-    fontWeight: "600",
     textAlign: "center",
-    fontSize: 16,
   },
   modalOverlay: {
     flex: 1,
@@ -234,7 +230,7 @@ const styles = StyleSheet.create({
   },
   errorContainer: {
     width: "100%",
-    borderRadius: BorderRadius.md,
+    borderRadius: BorderRadius.sm,
     overflow: "hidden",
     padding: Spacing.lg,
   },
